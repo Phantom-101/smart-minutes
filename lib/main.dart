@@ -6,6 +6,7 @@ import 'package:meeting_minutes/main.mapper.g.dart';
 import 'package:meeting_minutes/views/home/scaffold.dart';
 import 'package:provider/provider.dart';
 
+
 void main() {
   initializeJsonMapper();
   JsonMapper().useAdapter(mobXAdapter);
