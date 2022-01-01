@@ -1,28 +1,37 @@
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
+
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Text(
+        const Text(
           "LOGIN",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         TextField(
-          decoration: InputDecoration(hintText: "Your Email")
+          controller: _email,
+          decoration: const InputDecoration(hintText: "Email"),
         ),
         TextField(
-          onChanged: (value) {},
+          controller: _password,
+          decoration: const InputDecoration(hintText: "Password"),
         ),
         TextButton(
-          child: Text('LOGIN'),
-          onPressed: () {},
+          child: const Text('Login'),
+          onPressed: () => submit(),
         ),
       ],
     );
+  }
+
+  void submit() {
+    // get .text from text editing controllers here
   }
 }
