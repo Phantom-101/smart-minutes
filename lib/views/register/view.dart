@@ -1,5 +1,5 @@
-import 'dart:html';
 import 'package:flutter/material.dart';
+import 'package:meeting_minutes/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:meeting_minutes/data/database.dart';
 import 'package:meeting_minutes/views/home/logged_in/view.dart';
@@ -40,8 +40,7 @@ class RegisterScreen extends StatelessWidget {
               var token = uuid.v4();
               await context.read<MongoDatabase>().insertOne({"email":_email.text,
               "password":_password.text,"token": token});
-              var preferences = await SharedPreferences.getInstance();
-              preferences.setString('token',token);
+              await context.read<StorageUtil>().putString('token',token);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const HomeLoggedIn())

@@ -30,6 +30,7 @@ class LoginScreen extends StatelessWidget {
         TextButton(
           child: const Text('Login'),
           onPressed: () async {
+    
             if (await context.read<MongoDatabase>().findOne({"email":_email.text,"password": _password.text})==null){
               const snackBar = SnackBar(content: Text('Email or password does not exist'),);
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
