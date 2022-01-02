@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:meeting_minutes/data/recording.dart';
 import 'package:meeting_minutes/main.mapper.g.dart';
+import 'package:meeting_minutes/utils/shared_preferences.dart';
 import 'package:meeting_minutes/views/calendar/scaffold.dart';
 import 'package:meeting_minutes/views/calendar/view.dart';
 import 'package:meeting_minutes/views/home/scaffold.dart';
 import 'package:provider/provider.dart';
+import 'package:meeting_minutes/data/database.dart';
 
 void main() {
   initializeJsonMapper();
@@ -18,6 +20,8 @@ void main() {
       child: MultiProvider(
         providers: [
           Provider(create: (_) => Logger(printer: SimplePrinter(colors: false))),
+          Provider(create: (_) => MongoDatabase()),
+          Provider(create: (_) => StorageUtil()),
         ],
         builder: (_, __) => const MyApp(),
       ),
