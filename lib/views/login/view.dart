@@ -12,38 +12,48 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return ListView(
       children: <Widget>[
-        const Text(
-          "LOGIN",
-          style: TextStyle(fontWeight: FontWeight.bold),
+        const SizedBox(height: 50),
+        Center(
+          child: SizedBox(
+            width: 400,
+            child: TextField(
+              controller: _email,
+              decoration: const InputDecoration(hintText: "Email"),
+            ),
+          ),
         ),
-        TextField(
-          controller: _email,
-          decoration: const InputDecoration(hintText: "Email"),
+        Center(
+          child: SizedBox(
+            width: 400,
+            child: TextField(
+              controller: _password,
+              decoration: const InputDecoration(hintText: "Password"),
+            ),
+          ),
         ),
-        TextField(
-          controller: _password,
-          decoration: const InputDecoration(hintText: "Password"),
-        ),
-        TextButton(
-          child: const Text('Login'),
-          onPressed: () async {
-    
-            if (await context.read<MongoDatabase>().findOne({"email":_email.text,"password": _password.text})==null){
-              const snackBar = SnackBar(content: Text('Email or password does not exist'),);
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            } 
-            else {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomeLoggedIn())
-              );
-              const snackBar = SnackBar(content: Text('Successful Login!'),);
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);      
-            }
-          },
+        const SizedBox(height: 50),
+        Center(
+          child: SizedBox(
+            width: 100,
+            child: TextButton(
+              child: const Text('Login'),
+              onPressed: () async {
+                if (await context.read<MongoDatabase>().findOne({"email":_email.text,"password": _password.text})==null){
+                  const snackBar = SnackBar(content: Text('Email or password does not exist'));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomeLoggedIn())
+                  );
+                  const snackBar = SnackBar(content: Text('Successful Login!'));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+              },
+            ),
+          ),
         ),
       ],
     );

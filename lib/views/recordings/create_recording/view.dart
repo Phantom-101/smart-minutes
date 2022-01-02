@@ -12,7 +12,7 @@ class CreateRecording extends StatelessWidget {
       children: [
         const SizedBox(height: 50),
         Center(
-          child: Container(
+          child: SizedBox(
             width: 400,
             child: TextField(
               controller: _name,
@@ -23,7 +23,7 @@ class CreateRecording extends StatelessWidget {
           ),
         ),
         Center(
-          child: Container(
+          child: SizedBox(
             width: 400,
             child: TextField(
               controller: _description,
@@ -35,7 +35,7 @@ class CreateRecording extends StatelessWidget {
         ),
         const SizedBox(height: 50),
         Center(
-          child: Container(
+          child: SizedBox(
             width: 100,
             child: TextButton(
               onPressed: () {},

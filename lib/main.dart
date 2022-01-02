@@ -6,10 +6,11 @@ import 'package:meeting_minutes/data/recording.dart';
 import 'package:meeting_minutes/main.mapper.g.dart';
 import 'package:meeting_minutes/utils/shared_preferences.dart';
 import 'package:meeting_minutes/views/calendar/scaffold.dart';
-import 'package:meeting_minutes/views/calendar/view.dart';
 import 'package:meeting_minutes/views/home/scaffold.dart';
 import 'package:provider/provider.dart';
 import 'package:meeting_minutes/data/database.dart';
+
+import 'data/symbl.dart';
 
 void main() {
   initializeJsonMapper();
@@ -22,6 +23,7 @@ void main() {
           Provider(create: (_) => Logger(printer: SimplePrinter(colors: false))),
           Provider(create: (_) => MongoDatabase()),
           Provider(create: (_) => StorageUtil()),
+          Provider(create: (_) => SymblApi()),
         ],
         builder: (_, __) => const MyApp(),
       ),
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: HomeScaffold(),
+      home: const HomeScaffold(),
     );
   }
 }
