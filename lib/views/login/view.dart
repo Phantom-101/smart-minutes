@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meeting_minutes/views/home/logged_in/view.dart';
+
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -25,13 +27,18 @@ class LoginScreen extends StatelessWidget {
         ),
         TextButton(
           child: const Text('Login'),
-          onPressed: () => submit(),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeLoggedIn()),
+            );
+          },
         ),
       ],
     );
   }
 
   void submit() {
-    // get .text from text editing controllers here
+
   }
 }
