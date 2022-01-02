@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:meeting_minutes/views/home/logged_in/view.dart';
 
+import 'package:provider/provider.dart';
+import 'package:meeting_minutes/data/database.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -27,11 +29,19 @@ class LoginScreen extends StatelessWidget {
         ),
         TextButton(
           child: const Text('Login'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomeLoggedIn()),
-            );
+          onPressed: () async {
+            if (await context.read<MongoDatabase>().findOne({"email":_email.text,"password": _password.text})==null){
+              const snackBar = SnackBar(content: Text('Email or password does not exist'),);
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            } 
+            else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeLoggedIn())
+              );
+              const snackBar = SnackBar(content: Text('Successful Login!'),);
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);      
+            }
           },
         ),
       ],

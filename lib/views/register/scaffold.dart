@@ -9,7 +9,7 @@ class RegisterScaffold extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Register'),
       ),
-      body: const RegisterScreen(),
+      body: RegisterScreen(),
     );
   }
 }
