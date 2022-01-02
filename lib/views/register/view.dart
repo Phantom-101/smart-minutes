@@ -38,7 +38,7 @@ class RegisterScreen extends StatelessWidget {
             else {
               var uuid = const Uuid();
               var token = uuid.v4();
-              await context.read<MongoDatabase>().insertOne({"email":_email.text,
+              await context.read<MongoDatabase>().insertOne(<String,dynamic>{"email":_email.text,
               "password":_password.text,"token": token});
               await context.read<StorageUtil>().putString('token',token);
               Navigator.push(

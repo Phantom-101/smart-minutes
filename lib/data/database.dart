@@ -1,3 +1,4 @@
+import 'package:meeting_minutes/main.mapper.g.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class MongoDatabase  {
@@ -10,14 +11,19 @@ class MongoDatabase  {
     await db.open();
     collection = await db.collection("users");
   }
-  Future<dynamic> findOne(dynamic query)  async {
+  Future<dynamic>? findOne(dynamic query)  async {
     await initialized;
     var result = await collection.findOne(query);
     return result;
   }
-  Future<dynamic> insertOne(dynamic query)  async {
+  insertOne(Map<String,dynamic>query)  async {
     await initialized;
     await collection.insertOne(query);
+
+  }
+  update(queryKey, queryValue, setKey, setValue) async {
+    await initialized;
+    await collection.update(where.eq(queryKey, queryValue), modify.set(setKey, setValue));
   }
 
 }

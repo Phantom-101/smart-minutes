@@ -3,6 +3,7 @@ import 'package:meeting_minutes/views/home/logged_in/view.dart';
 
 import 'package:provider/provider.dart';
 import 'package:meeting_minutes/data/database.dart';
+import 'package:uuid/uuid.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -40,6 +41,9 @@ class LoginScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(builder: (context) => const HomeLoggedIn())
               );
+              var uuid = const Uuid();
+              var token = uuid.v4();
+              await context.read<MongoDatabase>().update("email",_email.text,"token",token);
               const snackBar = SnackBar(content: Text('Successful Login!'),);
               ScaffoldMessenger.of(context).showSnackBar(snackBar);      
             }
