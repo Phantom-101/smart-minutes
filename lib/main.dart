@@ -2,10 +2,12 @@ import 'package:dart_json_mapper/dart_json_mapper.dart';
 import 'package:dart_json_mapper_mobx/dart_json_mapper_mobx.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:meeting_minutes/data/recording.dart';
 import 'package:meeting_minutes/main.mapper.g.dart';
+import 'package:meeting_minutes/views/calendar/scaffold.dart';
+import 'package:meeting_minutes/views/calendar/view.dart';
 import 'package:meeting_minutes/views/home/scaffold.dart';
 import 'package:provider/provider.dart';
-
 
 void main() {
   initializeJsonMapper();
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const HomeScaffold(),
+      home: CalendarScaffold([Recording('id', 'symblId', 'name', 'description', DateTime.now())]),
     );
   }
 }
