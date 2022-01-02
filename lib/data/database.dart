@@ -18,8 +18,13 @@ class MongoDatabase  {
     return await collection.findOne(query);
   }
 
-  Future<dynamic> insertOne(dynamic query) async {
+  insertOne(Map<String,dynamic> query) async {
     await initialized;
     await collection.insertOne(query);
+  }
+
+  update(queryKey, queryValue, setKey, setValue) async {
+    await initialized;
+    await collection.update(where.eq(queryKey, queryValue), modify.set(setKey, setValue));
   }
 }

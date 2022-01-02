@@ -39,21 +39,18 @@ class RegisterScreen extends StatelessWidget {
             child: TextButton(
               child: const Text('Register'),
               onPressed: () async {
-                if (await context.read<MongoDatabase>().findOne({"email":_email.text})!=null){
-                  const snackBar = SnackBar(content: Text('Email is already in use'),);
+                if (await context.read<MongoDatabase>().findOne({"email": _email.text}) != null){
+                  const snackBar = SnackBar(content: Text('Email is already in use'));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }
                 else {
                   var uuid = const Uuid();
                   var token = uuid.v4();
-                  await context.read<MongoDatabase>().insertOne({"email":_email.text,
-                  "password":_password.text,"token": token});
-                  await context.read<StorageUtil>().putString('token',token);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomeLoggedIn())
-                  );
-                  const snackBar = SnackBar(content: Text('Registration Successful!'),);
+                  await context.read<MongoDatabase>().insertOne(<String,dynamic>{"email": _email.text,
+                    "password": _password.text, "token": token});
+                  await context.read<StorageUtil>().putString('token', token);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeLoggedIn()));
+                  const snackBar = SnackBar(content: Text('Registration Successful!'));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }
               },
