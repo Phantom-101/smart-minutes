@@ -35,7 +35,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: CalendarScaffold([Recording('id', 'symblId', 'name', 'description', DateTime.now())]),
+      home: HomeScaffold(),
     );
   }
 }
+
+//[Recording('id', 'symblId', 'name', 'description', DateTime.now())]

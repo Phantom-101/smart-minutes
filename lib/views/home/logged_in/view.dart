@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 
 
 class HomeLoggedIn extends StatelessWidget {
@@ -78,6 +80,11 @@ class HomeLoggedIn extends StatelessWidget {
                     letterSpacing: 2,
                   ),
                 ),
+                TextButton(
+                  child: const Text('Get Symbl Stuff'),
+                  onPressed: () {
+                    fetchSymbl();},
+                ),
               ],
             ),
           ],
@@ -86,4 +93,9 @@ class HomeLoggedIn extends StatelessWidget {
 
     );
   }
+
+  Future<http.Response> fetchSymbl() {
+    return http.get(Uri.parse('https://api-labs.symbl.ai/v1/process/text?enableSummary=true'));
+  }
 }
+
