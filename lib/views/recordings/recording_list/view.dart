@@ -10,6 +10,7 @@ class RecordingList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      shrinkWrap: true,
       children: recordings.map((recording) => RecordingInfo(recording)).toList(),
     );
   }

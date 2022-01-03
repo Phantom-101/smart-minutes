@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meeting_minutes/data/database.dart';
-import 'package:meeting_minutes/utils/shared_preferences.dart';
-import 'package:meeting_minutes/views/home/logged_in/view.dart';
-import 'package:meeting_minutes/views/home/logged_out/view.dart';
+import 'package:meeting_minutes/data/team.dart';
+import 'package:meeting_minutes/data/user.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
@@ -10,22 +9,27 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: context.read<StorageUtil>().getString("token"),
-      builder: (context, AsyncSnapshot<String> snapshot){
-        if (snapshot.hasData){
-          return FutureBuilder(
-            future: context.read<MongoDatabase>().tokenExists(snapshot.data!),
-            builder: (context, result){
-              if (result.hasData){
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeLoggedIn()));
-              }
-              return const HomeLoggedOut();
-            },
-          );
-        }
-        return const CircularProgressIndicator();
-      },
+    return ListView(
+      shrinkWrap: true,
+      children: [
+        Card(
+          child: ListTile(
+            title: Text(context.read<User>().email ?? 'Unknown'),
+            subtitle: FutureBuilder(
+              future: context.read<Database>().getTeams(context.read<User>()),
+              builder: (context, AsyncSnapshot<List<Team>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    return Text('In ${snapshot.data!.length.toString()} teams');
+                  }
+                  return const Text('Unknown # of teams');
+                }
+                return const Text('Loading');
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

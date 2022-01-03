@@ -3,18 +3,18 @@ import 'package:meeting_minutes/data/team.dart';
 
 import 'view.dart';
 
-class CreateRecordingScaffold extends StatelessWidget {
+class TeamDetailsScaffold extends StatelessWidget {
   final Team team;
 
-  const CreateRecordingScaffold(this.team, {Key? key}) : super(key: key);
+  const TeamDetailsScaffold(this.team, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Recording'),
+        title: const Text('Team Details'),
       ),
-      body: CreateRecording(team),
+      body: TeamDetails(team),
     );
   }
 }

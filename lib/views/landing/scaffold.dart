@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'view.dart';
 
-class HomeScaffold extends StatelessWidget {
-  const HomeScaffold({Key? key}) : super(key: key);
+class LandingScaffold extends StatelessWidget {
+  const LandingScaffold({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: const Text('Landing'),
       ),
-      body: const Home(),
+      body: const Landing(),
     );
   }
 }

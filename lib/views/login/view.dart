@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meeting_minutes/views/home/logged_in/view.dart';
+import 'package:meeting_minutes/data/user.dart';
+import 'package:meeting_minutes/views/dashboard/scaffold.dart';
 import 'package:provider/provider.dart';
 import 'package:meeting_minutes/data/database.dart';
 import 'package:uuid/uuid.dart';
@@ -30,6 +31,9 @@ class LoginScreen extends StatelessWidget {
             child: TextField(
               controller: _password,
               decoration: const InputDecoration(hintText: "Password"),
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
             ),
           ),
         ),
@@ -40,11 +44,11 @@ class LoginScreen extends StatelessWidget {
             child: TextButton(
               child: const Text('Login'),
               onPressed: () async {
-                if (await context.read<MongoDatabase>().verifyEmailAndPassword(_email.text, _password.text)){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeLoggedIn()));
+                if (await context.read<Database>().verifyEmailAndPassword(context.read<User>(), _email.text, _password.text)){
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const DashboardScaffold()));
                   var uuid = const Uuid();
                   var token = uuid.v4();
-                  await context.read<MongoDatabase>().changeUserToken(_email.text, token);
+                  await context.read<Database>().changeUserToken(context.read<User>(), token);
                   const snackBar = SnackBar(content: Text('Successful Login!'));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 } else {

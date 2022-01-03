@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:meeting_minutes/main.mapper.g.dart';
 import 'package:meeting_minutes/utils/shared_preferences.dart';
-import 'package:meeting_minutes/views/home/scaffold.dart';
+import 'package:meeting_minutes/views/landing/scaffold.dart';
 import 'package:provider/provider.dart';
 import 'package:meeting_minutes/data/database.dart';
 import 'data/symbl_api.dart';
+import 'data/user.dart';
 
 void main() {
   initializeJsonMapper();
@@ -18,9 +19,10 @@ void main() {
       child: MultiProvider(
         providers: [
           Provider(create: (_) => Logger(printer: SimplePrinter(colors: false))),
-          Provider(create: (_) => MongoDatabase()),
+          Provider(create: (_) => Database()),
           Provider(create: (_) => StorageUtil()),
           Provider(create: (_) => SymblApi()),
+          Provider(create: (_) => User()),
         ],
         builder: (_, __) => const MyApp(),
       ),
@@ -38,10 +40,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: HomeScaffold(),
-      
+      home: const LandingScaffold(),
     );
   }
 }
-
-//CalendarScaffold([Recording('id', 'symblId', 'name', 'description', DateTime.now())])

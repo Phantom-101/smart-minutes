@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:meeting_minutes/data/team.dart';
-import 'package:meeting_minutes/views/teams/create_team/scaffold.dart';
 import 'package:meeting_minutes/views/teams/team_info/view.dart';
 
 class TeamList extends StatelessWidget {
@@ -11,17 +10,8 @@ class TeamList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: [
-        ...teams.map((team) => TeamInfo(team)).toList(),
-        Card(
-          child: TextButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => CreateTeamScaffold()));
-            },
-            child: const Text('Create Team'),
-          ),
-        ),
-      ],
+      shrinkWrap: true,
+      children: teams.map((team) => TeamInfo(team)).toList(),
     );
   }
 }

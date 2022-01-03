@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meeting_minutes/data/team.dart';
+import 'package:meeting_minutes/views/teams/team_details/scaffold.dart';
 
 class TeamInfo extends StatelessWidget {
   final Team team;
@@ -10,7 +11,9 @@ class TeamInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => TeamDetailsScaffold(team)));
+        },
         child: ListTile(
           title: Text(team.name),
           subtitle: Text(team.description),

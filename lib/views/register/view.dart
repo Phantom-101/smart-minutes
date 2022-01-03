@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:meeting_minutes/data/user.dart';
 import 'package:meeting_minutes/utils/shared_preferences.dart';
+import 'package:meeting_minutes/views/dashboard/scaffold.dart';
 import 'package:provider/provider.dart';
 import 'package:meeting_minutes/data/database.dart';
-import 'package:meeting_minutes/views/home/logged_in/view.dart';
 import 'package:uuid/uuid.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -29,6 +30,9 @@ class RegisterScreen extends StatelessWidget {
             child: TextField(
               controller: _password,
               decoration: const InputDecoration(hintText: "Password"),
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
             ),
           ),
         ),
@@ -39,17 +43,17 @@ class RegisterScreen extends StatelessWidget {
             child: TextButton(
               child: const Text('Register'),
               onPressed: () async {
-                if (await context.read<MongoDatabase>().emailExists(_email.text)){
+                if (await context.read<Database>().emailExists(_email.text)){
                   const snackBar = SnackBar(content: Text('Email is already in use'));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }
                 else {
                   var uuid = const Uuid();
                   var token = uuid.v4();
-                  await context.read<MongoDatabase>().createUser(_email.text, _password.text);
-                  await context.read<MongoDatabase>().changeUserToken(_email.text, token);
+                  await context.read<Database>().createUser(context.read<User>(), _email.text, _password.text);
+                  await context.read<Database>().changeUserToken(context.read<User>(), token);
                   await context.read<StorageUtil>().putString('token', token);
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeLoggedIn()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const DashboardScaffold()));
                   const snackBar = SnackBar(content: Text('Registration Successful!'));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }
