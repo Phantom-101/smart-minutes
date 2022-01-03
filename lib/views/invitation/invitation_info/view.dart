@@ -13,6 +13,7 @@ class InvitationInfo extends StatelessWidget {
         title: Text(team.name),
         subtitle: Text(team.description),
         trailing: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
               onPressed: () {},
