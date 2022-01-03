@@ -40,15 +40,15 @@ class LoginScreen extends StatelessWidget {
             child: TextButton(
               child: const Text('Login'),
               onPressed: () async {
-                if (await context.read<MongoDatabase>().findOne({"email": _email.text,"password": _password.text}) == null){
-                  const snackBar = SnackBar(content: Text('Email or password does not exist'));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                } else {
+                if (await context.read<MongoDatabase>().verifyEmailAndPassword(_email.text, _password.text)){
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeLoggedIn()));
                   var uuid = const Uuid();
                   var token = uuid.v4();
-                  await context.read<MongoDatabase>().update("email", _email.text, "token", token);
+                  await context.read<MongoDatabase>().changeUserToken(_email.text, token);
                   const snackBar = SnackBar(content: Text('Successful Login!'));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                } else {
+                  const snackBar = SnackBar(content: Text('Email or password does not exist'));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }
               },

@@ -12,10 +12,10 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: context.read<StorageUtil>().getString("token"),
-      builder: (context, snapshot){
+      builder: (context, AsyncSnapshot<String> snapshot){
         if (snapshot.hasData){
           return FutureBuilder(
-            future: context.read<MongoDatabase>().findOne({"token": snapshot.data}),
+            future: context.read<MongoDatabase>().tokenExists(snapshot.data!),
             builder: (context, result){
               if (result.hasData){
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeLoggedIn()));
