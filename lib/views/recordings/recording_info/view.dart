@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meeting_minutes/data/recording.dart';
+import 'package:meeting_minutes/data/symbl_api.dart';
+import 'package:provider/provider.dart';
 
 class RecordingInfo extends StatelessWidget {
   final Recording recording;
@@ -12,8 +14,17 @@ class RecordingInfo extends StatelessWidget {
       child: InkWell(
         onTap: () {},
         child: ListTile(
-          title: Text(recording.name),
-          subtitle: Text(recording.description),
+          title: FutureBuilder(
+            future: context.read<SymblApi>().getName(recording.job),
+            builder: (context, AsyncSnapshot<String?> snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data == null) return const Text('Unknown');
+                return Text(snapshot.data!);
+              }
+              return const Text('Loading');
+            },
+          ),
+          subtitle: Text(recording.date.toString()),
         ),
       ),
     );

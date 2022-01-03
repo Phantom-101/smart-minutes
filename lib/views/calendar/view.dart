@@ -30,7 +30,7 @@ class _CalendarState extends State<Calendar> {
             headerStyle: const HeaderStyle(
               formatButtonVisible: false,
             ),
-            eventLoader: (day) => widget.recordings.where((recording) => recording.date.isSameDate(day)).map((recording) => recording.name).toList(),
+            eventLoader: (day) => widget.recordings.where((recording) => recording.date.isSameDate(day)).toList(),
             selectedDayPredicate: (day) {
               return isSameDay(_selectedDay, day);
             },

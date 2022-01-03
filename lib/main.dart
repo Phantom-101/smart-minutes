@@ -7,10 +7,11 @@ import 'package:meeting_minutes/main.mapper.g.dart';
 import 'package:meeting_minutes/utils/shared_preferences.dart';
 import 'package:meeting_minutes/views/calendar/scaffold.dart';
 import 'package:meeting_minutes/views/home/scaffold.dart';
+import 'package:meeting_minutes/views/recordings/create_recording/scaffold.dart';
 import 'package:provider/provider.dart';
 import 'package:meeting_minutes/data/database.dart';
 
-import 'data/symbl.dart';
+import 'data/symbl_api.dart';
 
 void main() {
   initializeJsonMapper();
