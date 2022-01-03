@@ -14,19 +14,13 @@ class HomeLoggedOut extends StatelessWidget {
         const Center(child: Text('You are currently logged out.')),
         TextButton(
           onPressed: () {
-            Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => LoginScaffold()),
-            );
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScaffold()));
           },
           child: const Text('Log In'),
         ),
         TextButton(
           onPressed: () {
-            Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => RegisterScaffold()),
-            );
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RegisterScaffold()));
           },
           child: const Text('Sign Up'),
         ),

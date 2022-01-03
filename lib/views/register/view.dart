@@ -49,7 +49,7 @@ class RegisterScreen extends StatelessWidget {
                   await context.read<MongoDatabase>().insertOne(<String,dynamic>{"email": _email.text,
                     "password": _password.text, "token": token});
                   await context.read<StorageUtil>().putString('token', token);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeLoggedIn()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeLoggedIn()));
                   const snackBar = SnackBar(content: Text('Registration Successful!'));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }

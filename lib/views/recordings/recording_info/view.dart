@@ -17,7 +17,7 @@ class RecordingInfo extends StatelessWidget {
           title: FutureBuilder(
             future: context.read<SymblApi>().getName(recording.job),
             builder: (context, AsyncSnapshot<String?> snapshot) {
-              if (snapshot.hasData) {
+              if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.data == null) return const Text('Unknown');
                 return Text(snapshot.data!);
               }

@@ -44,7 +44,7 @@ class LoginScreen extends StatelessWidget {
                   const snackBar = SnackBar(content: Text('Email or password does not exist'));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 } else {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeLoggedIn()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeLoggedIn()));
                   var uuid = const Uuid();
                   var token = uuid.v4();
                   await context.read<MongoDatabase>().update("email", _email.text, "token", token);

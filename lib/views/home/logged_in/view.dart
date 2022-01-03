@@ -1,99 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:meeting_minutes/data/conversation_job.dart';
+import 'package:meeting_minutes/data/recording.dart';
+import 'package:meeting_minutes/data/team.dart';
+import 'package:meeting_minutes/views/calendar/view.dart';
+import 'package:meeting_minutes/views/profile/view.dart';
+import 'package:meeting_minutes/views/teams/team_list/view.dart';
 
-class HomeLoggedIn extends StatelessWidget {
+class HomeLoggedIn extends StatefulWidget {
   const HomeLoggedIn({Key? key}) : super(key: key);
+
+  @override
+  State<HomeLoggedIn> createState() => _HomeLoggedInState();
+}
+
+class _HomeLoggedInState extends State<HomeLoggedIn> {
+  int _index = 1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
       appBar: AppBar(
         title: const Text("Welcome to Your Profile"),
         centerTitle: true,
-        backgroundColor: Colors.grey[850],
         elevation: 0,
       ),
-
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(40, 40, 30, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            // Center(
-            //   child: CircleAvatar(
-            //     backgroundImage: AssetImage("assets/pic.jpg"),
-            //     radius: 70,
-            //   ),
-            // ),
-            Divider(height: 60, color: Colors.grey[600],),
-            const Text(
-              "NAME",
-              style: TextStyle(
-                  color: Colors.grey,
-                  letterSpacing: 2
-              ),
-            ),
-            const SizedBox(height:10),
-            Text(
-              "Aditya Mittal",
-              style: TextStyle(
-                  color: Colors.yellow[200],
-                  letterSpacing: 2,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold
-              ),
-            ),
-            const SizedBox(height:30),
-            const Text(
-              "Number of Teams",
-              style: TextStyle(
-                  color: Colors.grey,
-                  letterSpacing: 2
-              ),
-            ),
-            const SizedBox(height:10),
-            Text(
-              "8",
-              style: TextStyle(
-                  color: Colors.yellow[200],
-                  letterSpacing: 2,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold
-              ),
-            ),
-            const SizedBox(height:30),
-            Row(
-              children: <Widget>[
-                Icon(
-                    Icons.email,
-                    color: Colors.grey[400]
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  "toadityamittal@gmail.com",
-                  style: TextStyle(
-                    color: Colors.grey[400],
-                    fontSize: 18,
-                    letterSpacing: 2,
-                  ),
-                ),
-                TextButton(
-                  child: const Text('Get Symbl Stuff'),
-                  onPressed: () {
-                    fetchSymbl();},
-                ),
-              ],
-            ),
-          ],
-        ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _index,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: 'Calendar'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Teams'),
+        ],
+        onTap: (index) {
+          setState(() {
+            _index = index;
+          });
+        },
       ),
-
+      body: [
+        Calendar([
+          Recording('1', ConversationJob('1', '1'), DateTime.now()),
+          Recording('2', ConversationJob('2', '2'), DateTime.now()),
+          Recording('3', ConversationJob('3', '3'), DateTime.now()),
+        ]),
+        Profile(),
+        TeamList([
+          Team('1', 'Team 1', 'Description'),
+          Team('2', 'Team 2', 'Description'),
+          Team('3', 'Team 3', 'Description'),
+          Team('4', 'Team 4', 'Description'),
+          Team('5', 'Team 5', 'Description'),
+        ]),
+      ][_index],
     );
-  }
-
-  Future<http.Response> fetchSymbl() {
-    return http.get(Uri.parse('https://api-labs.symbl.ai/v1/process/text?enableSummary=true'));
   }
 }
 

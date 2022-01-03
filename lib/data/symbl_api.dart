@@ -26,7 +26,7 @@ class SymblApi {
 
     if (resp.statusCode == 200) {
       var expiration = _tokenReqSent.add(Duration(seconds: resp.data['expiresIn']));
-      if (DateTime.now().compareTo(expiration) > 0) {
+      if (DateTime.now().compareTo(expiration) >= 0) {
         _tokenResp = null;
         return getToken();
       }
@@ -37,28 +37,33 @@ class SymblApi {
   }
 
   Future<JobStatus> getJobStatus(ConversationJob job) async {
-    var token = await getToken();
+    try {
+      var token = await getToken();
 
-    var headers = {
-      'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json',
-    };
+      var headers = {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      };
 
-    Response resp = await Dio().post('https://api.symbl.ai/v1/job/${job.jobId}', options: Options(headers: headers));
+      Response resp = await Dio().get('https://api.symbl.ai/v1/job/${job.jobId}', options: Options(headers: headers));
 
-    if (resp.statusCode == 200) {
-      switch(resp.data['status']) {
-        case 'scheduled':
-          return JobStatus.scheduled;
-        case 'in_progress':
-          return JobStatus.inProgress;
-        case 'completed':
-          return JobStatus.completed;
-        case 'failed':
-          return JobStatus.failed;
+      if (resp.statusCode == 200) {
+        switch(resp.data['status']) {
+          case 'scheduled':
+            return JobStatus.scheduled;
+          case 'in_progress':
+            return JobStatus.inProgress;
+          case 'completed':
+            return JobStatus.completed;
+          case 'failed':
+            return JobStatus.failed;
+        }
       }
+
+      return JobStatus.failed;
+    } catch(e) {
+      return JobStatus.failed;
     }
-    return JobStatus.failed;
   }
 
   Future<void> waitForJobCompletion(ConversationJob job) async {
@@ -120,20 +125,24 @@ class SymblApi {
   }
 
   Future<String?> getName(ConversationJob job) async {
-    await waitForJobCompletion(job);
+    try {
+      await waitForJobCompletion(job);
 
-    var token = await getToken();
+      var token = await getToken();
 
-    var headers = {
-      'Authorization': 'Bearer $token',
-    };
+      var headers = {
+        'Authorization': 'Bearer $token',
+      };
 
-    Response resp = await Dio().post('https://api.symbl.ai/v1/process/audio', options: Options(headers: headers));
+      Response resp = await Dio().get('https://api.symbl.ai/v1/conversations/${job.conversationId}', options: Options(headers: headers));
 
-    if (resp.statusCode == 200) {
-      return resp.data['name'];
+      if (resp.statusCode == 200) {
+        return resp.data['name'];
+      }
+      return null;
+    } catch(e) {
+      return null;
     }
-    return null;
   }
 
   Future<List<String>?> getTranscript(ConversationJob job) async {
